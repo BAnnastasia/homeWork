@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -144,7 +145,7 @@ swipeUpFindelement(
         "Сообщение об  ошибке",20);
 
 
-    }*/
+    }
     @Test
     public void saveFirstArticleToMyList()
     {
@@ -263,8 +264,38 @@ swipeUpFindelement(
         waitForElementPresent(By.xpath("//*[@text='JavaScript']"),
                 "не найден статья про JavaScript",5 );
 
-    }
+    } */
 
+@Test
+public void assertTitle() {
+
+
+    waitForElementAndClick(
+            By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+            "Cannot find Search Wikipedia input",
+            5
+    );
+String text ="JAVA";
+    waitForElementAndSendKeys(
+            By.xpath("//*[contains(@text,'Search…')]"),
+            text,
+            "Cannot find search input",
+            10
+    );
+
+    waitForElementAndClick(
+            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='JavaScript']"),
+            "Cannot find JavaScript",
+            5
+    );
+
+    assertElementPresent(By.id("org.wikipedia:id/view_page_title_text"), "не найден заголовок статьи");
+
+
+
+
+
+    }
 
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
@@ -275,6 +306,27 @@ swipeUpFindelement(
             ExpectedConditions.presenceOfElementLocated(by));
 
 }
+
+
+    private WebElement assertElementPresent (By by, String error_message)
+    {
+
+        return waitForElementPresent(by, error_message, 0);
+
+        /*WebElement result = null;
+        try{
+            result = driver.findElement(by);
+        } catch (NoSuchElementException e){
+            //System.out.println("oops");
+            //e.printStackTrace();
+        }
+
+        Assert.assertNotNull(error_message, result);
+        return result;*/
+    }
+
+
+
 
     private WebElement waitForElementPresent(By by, String error_message)
     {
